@@ -6,7 +6,7 @@ const defaultState={
 }
 
 
-export default function reposReducer(state, action){
+export default function reposReducer(state = defaultState, action){
     switch (action.type){
 
         default:
