@@ -8,6 +8,14 @@ module.exports = {
         path: path.resolve(__dirname, "dist"),
         filename: "[name].[hash].js"
     },
+    devServer: {
+        historyApiFallback: true,
+        contentBase: path.resolve(__dirname, './dist'),
+        open: true,
+        compress: true,
+        hot: true,
+        port: 8080,
+    },
     plugins: [
         new HTMLWebpackPlugin({template: "./src/index.html"}),
         new CleanWebpackPlugin()

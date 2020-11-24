@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack serve"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
     "less": "^3.12.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-fetch-hook": "^1.8.3",
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
@@ -39,6 +41,7 @@
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.0.0-alpha.9",
     "less-loader": "^7.1.0",
-    "style-loader": "^2.0.0"
+    "style-loader": "^2.0.0",
+    "webpack-dev-server": "^3.11.0"
   }
 }

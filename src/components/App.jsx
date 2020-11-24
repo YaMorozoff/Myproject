@@ -12,13 +12,18 @@ export default class App extends Component {
         };
     }
     componentDidMount() {
-        fetch("http://test.clevertec.ru/tt/meta")
+        fetch("http://test.clevertec.ru/tt/meta", {
+                mode: 'no-cors',
+                method: 'POST',
+            },
+
+        )
             .then(res => res.json())
             .then(
                 (result) =>{
                     this.setState({
                         isLoaded:true,
-                        items:result.image
+                        items:result.title
                     });
                 },
                 (error) => {
@@ -31,16 +36,15 @@ export default class App extends Component {
     }
 
     render() {
-        const {error, isLoaded, items} = this.state();
+        const {error, isLoaded, items} = this.state;
         if(error) {
             return <p>Error {error.message}</p>
         }
         else if (!isLoaded){
-              return <p>Loading {error.message}</p>
+              return <p>Loading...</p>
             } else{
               return (
-                  <img src={items}/>
-
+                  <h>{items.title}</h>
               )
             }
         }
