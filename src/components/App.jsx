@@ -12,10 +12,13 @@ export default class App extends Component {
         };
     }
     componentDidMount() {
-        fetch("http://test.clevertec.ru/tt/meta", {
-                mode: 'no-cors',
-                method: 'POST',
+        var proxyUrl, targetUrl;
+        proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+        targetUrl = 'http://test.clevertec.ru/tt/meta';
+        fetch(proxyUrl + targetUrl,{
+            method:'POST'
             },
+
 
         )
             .then(res => res.json())
@@ -44,11 +47,14 @@ export default class App extends Component {
               return <p>Loading...</p>
             } else{
               return (
-                  <h>{items.title}</h>
+                  <ul>
+                      {items.map(item =>)}
+                  </ul>
               )
             }
         }
 
     }
+
 
 
