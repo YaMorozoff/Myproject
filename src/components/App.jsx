@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import './app.less'
 import {Input} from "arui-feather/input";
-import {InputAutocomplete} from "arui-feather/input-autocomplete";
+import Select from 'arui-feather/select';
+import Button from 'arui-feather/button';
 
 
 export default class App extends Component {
@@ -18,10 +19,8 @@ export default class App extends Component {
         };
     }
     componentDidMount() {
-        let  proxyUrl, targetUrl;
-        proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-        targetUrl = 'http://test.clevertec.ru/tt/meta';
-        fetch(proxyUrl + targetUrl,{
+        const targetUrl = 'http://test.clevertec.ru/tt/meta';
+        fetch(targetUrl, {
             method:'POST'
             },
 
@@ -48,20 +47,23 @@ export default class App extends Component {
             )
 
     }
-
+    sendData () {
+        console.log(this.state.textInput, this.state.numericInput, this.state.selectInput)
+    }
     renderInput (item) {
-        console.log(item)
         if (item.type === 'TEXT') {
             return (
-                <div>
+                <div key={item.type} className="inputBox">
                     <p>{item.title}</p>
                     <Input
-                        label='Имя'
-                        placeholder='Введите ваше имя'
+                        label='Текст'
+                        placeholder='Введите текст'
                         view='filled'
+                        type='text'
+                        pattern='^[a-zA-Z\s]+$'
                         size='m'
                         onChange={(value) => {
-                            this.setState({textField: value})
+                            this.setState({textInput: value})
                         }}
                     />
                 </div>
@@ -70,15 +72,16 @@ export default class App extends Component {
 
         if (item.type === 'NUMERIC') {
             return (
-                <div>
+                <div key={item.type} className="inputBox">
                     <p>{item.title}</p>
                     <Input
-                        label='Имя'
-                        placeholder='Введите ваше имя'
+                        label='Число'
+                        placeholder='Введите число'
                         view='filled'
+                        type='number'
                         size='m'
                         onChange={(value) => {
-                            this.setState({numericField: value})
+                            this.setState({numericInput: value})
                         }}
                     />
                 </div>
@@ -86,18 +89,30 @@ export default class App extends Component {
         }
 
         if (item.type === 'LIST') {
+            const options = [];
+            for (const property in item.values) {
+                options.push({value: property, text: item.values[property]})
+            }
+
             return (
-                <div>
+                <div key={item.type} className="inputBox">
                     <p>{item.title}</p>
-                    <InputAutocomplete
-                        options={ item.values }
-                    />
+                    <Select
+                        mode='radio'
+                        options={ options }
+                        onChange={(value) => {
+                            this.setState({selectInput: value})
+                        }
+                        }
+                        />
                 </div>
             )
         }
     }
     render() {
+
         const {error, isLoaded,title,image,fields} = this.state;
+
         if(error) {
             return <p>Error {error.message}</p>
         }
@@ -107,9 +122,18 @@ export default class App extends Component {
             }
 
               return (
-                  <div>
+                  <div className="mainBox">
+                      <div className="title">{title}</div>
                       {fields.map(field =>
                           this.renderInput(field))}
+                      <Button
+                          onClick={this.sendData()}
+                          view='rounded'
+                          text='Отправить'
+                      />
+                      <img src={image}
+                      />
+
                   </div>
               )
             }
