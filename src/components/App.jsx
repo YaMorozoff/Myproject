@@ -14,7 +14,7 @@ export default class App extends Component {
             items:[],
             textInput: '',
             numericInput: '',
-            selectInput: null
+            listInput: null
 
         };
     }
@@ -88,10 +88,10 @@ export default class App extends Component {
 
         if (item.type === 'LIST') {
             const options = [];
+
             for (const property in item.values) {
                 options.push({value: property, text: item.values[property]})
             }
-
             return (
                 <div key={item.type} className="inputBox">
                     <p>{item.title}</p>
@@ -99,7 +99,7 @@ export default class App extends Component {
                         mode='radio'
                         options={ options }
                         onChange={(value) => {
-                            this.setState({selectInput: value})
+                            this.setState({listInput: value})
                         }
                         }
                         />
@@ -108,12 +108,12 @@ export default class App extends Component {
         }
     }
     sendData () {
-        const {textInput, numericInput, selectInput} = this.state;
+        console.log(this.state.listInput)
         const data = {
-            "form":{
-                "TEXT":textInput,
-                "NUMERIC": numericInput,
-                "LIST":selectInput
+            "form": {
+                'text': this.state.textInput,
+                "numeric": this.state.numericInput,
+                "list": this.state.listInput
             }
 
         };
@@ -122,7 +122,8 @@ export default class App extends Component {
                 method: 'POST',
                 body: JSON.stringify(data),
 
-            });
+            })
+
             console.log('Успех:', JSON.stringify(response));
         } catch (error) {
             console.error('Ошибка:', error);
@@ -130,8 +131,7 @@ export default class App extends Component {
 
     }
     render() {
-        const {error, isLoaded,title,image,fields,textInput, numericInput, selectInput}= this.state;
-        console.log(numericInput, textInput, selectInput)
+        const {error, isLoaded,title,image,fields,textInput}= this.state;
         if(error) {
             return <p>Error {error.message}</p>
         }
@@ -146,7 +146,7 @@ export default class App extends Component {
                       {fields.map(field =>
                           this.renderInput(field))}
                       <Button
-                          onClick={this.sendData}
+                          onClick={this.sendData.bind(this)}
                           view='rounded'
                           text='Отправить'
                       />
