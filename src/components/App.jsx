@@ -18,6 +18,7 @@ export default class App extends Component {
 
         };
     }
+
     componentDidMount() {
         const targetUrl = 'http://test.clevertec.ru/tt/meta';
         fetch(targetUrl, {
@@ -46,9 +47,6 @@ export default class App extends Component {
                 }
             )
 
-    }
-    sendData () {
-        console.log(this.state.textInput, this.state.numericInput, this.state.selectInput)
     }
     renderInput (item) {
         if (item.type === 'TEXT') {
@@ -109,10 +107,31 @@ export default class App extends Component {
             )
         }
     }
+    sendData () {
+        const {textInput, numericInput, selectInput} = this.state;
+        const data = {
+            "form":{
+                "TEXT":textInput,
+                "NUMERIC": numericInput,
+                "LIST":selectInput
+            }
+
+        };
+        try {
+            const response = fetch('http://test.clevertec.ru/tt/data', {
+                method: 'POST',
+                body: JSON.stringify(data),
+
+            });
+            console.log('Успех:', JSON.stringify(response));
+        } catch (error) {
+            console.error('Ошибка:', error);
+        }
+
+    }
     render() {
-
-        const {error, isLoaded,title,image,fields} = this.state;
-
+        const {error, isLoaded,title,image,fields,textInput, numericInput, selectInput}= this.state;
+        console.log(numericInput, textInput, selectInput)
         if(error) {
             return <p>Error {error.message}</p>
         }
@@ -127,7 +146,7 @@ export default class App extends Component {
                       {fields.map(field =>
                           this.renderInput(field))}
                       <Button
-                          onClick={this.sendData()}
+                          onClick={this.sendData}
                           view='rounded'
                           text='Отправить'
                       />
