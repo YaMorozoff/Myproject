@@ -3,6 +3,11 @@ import './app.less'
 import {Input} from "arui-feather/input";
 import Select from 'arui-feather/select';
 import Button from 'arui-feather/button';
+import {Box, Dialog} from "@material-ui/core";
+import DialogContent from "@material-ui/core/DialogContent";
+import Spin from "arui-feather/spin";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContentText from "@material-ui/core/DialogContentText";
 
 
 export default class App extends Component {
@@ -11,6 +16,9 @@ export default class App extends Component {
         this.state = {
             error:null,
             isLoaded: false,
+            ifLoadTrue:false,
+            ifLoadFalse:false,
+            setOpen:false,
             items:[],
             textInput: '',
             numericInput: '',
@@ -108,30 +116,58 @@ export default class App extends Component {
         }
     }
     sendData () {
-        console.log(this.state.listInput)
-        const data = {
-            "form": {
-                'text': this.state.textInput,
-                "numeric": this.state.numericInput,
-                "list": this.state.listInput
+        console.log(this.state.setOpen)
+        this.setState({setOpen: true})
+        setTimeout(() => {
+            const data = {
+                "form": {
+                    'text': this.state.textInput,
+                    "numeric": this.state.numericInput,
+                    "list": this.state.listInput
+                }
+
+            };
+            try {
+                const response = fetch('http://test.clevertec.ru/tt/data', {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+
+
+                })
+                    .then(res => res.json())
+                    .then(
+                        (result) =>{
+
+                            this.setState({
+                                isLoaded:true,
+                                result:result.result
+
+
+
+                            });
+                        },
+                    )
+                console.log(result)
+
+                this.setState({setOpen: false})
+                this.setState({ifLoadTrue: true})
+                console.log('Успех:', JSON.stringify(response));
+            } catch (error) {
+                console.error('Ошибка:', error);
             }
-
-        };
-        try {
-            const response = fetch('http://test.clevertec.ru/tt/data', {
-                method: 'POST',
-                body: JSON.stringify(data),
-
-            })
-
-            console.log('Успех:', JSON.stringify(response));
-        } catch (error) {
-            console.error('Ошибка:', error);
-        }
-
+        },3000)
     }
+    handleClose (){
+        this.setState({setOpen: false})
+        this.setState({ifLoadTrue: false})
+        window.location.reload();
+    }
+
+
+
     render() {
-        const {error, isLoaded,title,image,fields,textInput}= this.state;
+        const {error, isLoaded,title,image,fields,result}= this.state;
+        console.log(result)
         if(error) {
             return <p>Error {error.message}</p>
         }
@@ -145,11 +181,53 @@ export default class App extends Component {
                       <div className="title">{title}</div>
                       {fields.map(field =>
                           this.renderInput(field))}
-                      <Button
-                          onClick={this.sendData.bind(this)}
-                          view='rounded'
-                          text='Отправить'
-                      />
+                          <Box>
+                              <Button id="sendDataButton"
+                              onClick={this.sendData.bind(this)}
+                              view='rounded'
+                              text='Отправить'
+                          />
+                          <Dialog open={this.state.setOpen} onClose={this.handleClose.bind(this)}>
+                              <DialogContent id="dialogContent">
+                                  <Spin
+                                      size={"xl" }
+                                      visible={ true }
+                                  />
+                                  <DialogContentText id="dialogText">
+                                      Отправка...
+                                  </DialogContentText>
+
+                              </DialogContent>
+                              <DialogActions>
+                                  <Button id="cancelButton"
+                                  onClick={this.handleClose.bind(this)}
+                                      view='rounded'
+                                      text='Отмена'
+                                  />
+                              </DialogActions>
+                          </Dialog>
+
+                              <Dialog open={this.state.ifLoadTrue} onClose={this.handleClose.bind(this)}>
+                                  <DialogContent id="dialogContent">
+
+                                      <DialogContentText id="dialogText">
+                                          Данные успешно загружены:
+                                          {this.state.result}
+                                      </DialogContentText>
+
+                                  </DialogContent>
+                                  <DialogActions>
+                                      <Button id="cancelButton"
+                                              onClick={this.handleClose.bind(this)}
+                                              view='rounded'
+                                              text='Продолжить'
+                                      />
+                                  </DialogActions>
+                              </Dialog>
+
+
+                          </Box>
+
                       <img src={image}
                       />
 
