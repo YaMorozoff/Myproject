@@ -43,6 +43,8 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="prettierjs.PrettierConfiguration.Package" value="I:\Myproject\node_modules\prettier" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2020.2.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -63,6 +65,7 @@
       <workItem from="1606467390566" duration="703000" />
       <workItem from="1606468113504" duration="22161000" />
       <workItem from="1606578014091" duration="17733000" />
+      <workItem from="1606657057882" duration="9667000" />
     </task>
     <servers />
   </component>
@@ -91,6 +94,10 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="577" y="231" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1600.860@0.0.1600.860" timestamp="1606144261655" />
+    <state x="121" y="95" key="SettingsEditor" timestamp="1606660000373">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="121" y="95" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1606660000373" />
     <state x="691" y="57" width="585" height="801" key="find.popup" timestamp="1606317119487">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
