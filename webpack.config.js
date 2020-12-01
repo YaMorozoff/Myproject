@@ -1,63 +1,64 @@
-const path = require('path')
-const {CleanWebpackPlugin} = require('clean-webpack-plugin')
-const HTMLWebpackPlugin = require('html-webpack-plugin')
+const path = require("path");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const HTMLWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
-    mode:"development",
-    entry:["@babel/polyfill", "./src/index.jsx"],
-    output: {
-        path: path.resolve(__dirname, "dist"),
-        filename: "[name].[hash].js"
+  mode: "development",
+  entry: ["@babel/polyfill", "./src/index.jsx"],
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    filename: "[name].[hash].js",
+  },
+  devServer: {
+    historyApiFallback: true,
+    contentBase: path.resolve(__dirname, "./dist"),
+    open: true,
+    compress: true,
+    hot: true,
+    port: 8080,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+      "Access-Control-Allow-Headers":
+        "X-Requested-With, content-type, Authorization",
     },
-    devServer: {
-        historyApiFallback: true,
-        contentBase: path.resolve(__dirname, './dist'),
-        open: true,
-        compress: true,
-        hot: true,
-        port: 8080,
-        headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-            "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+  },
+  plugins: [
+    new HTMLWebpackPlugin({ template: "./src/index.html" }),
+    new CleanWebpackPlugin(),
+  ],
+  resolve: {
+    extensions: [".jsx", ".js"],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(css|less)$/,
+        use: ["style-loader", "css-loader", "less-loader"],
+      },
+      {
+        test: /\.(jpg|jpeg|png|svg)$/,
+        use: ["file-loader"],
+      },
+      {
+        test: /\.m?js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env"],
+          },
         },
-    },
-    plugins: [
-        new HTMLWebpackPlugin({template:'./src/index.html'}),
-        new CleanWebpackPlugin()
+      },
+      {
+        test: /\.m?jsx$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env", "@babel/preset-react"],
+          },
+        },
+      },
     ],
-    resolve: {
-        extensions: ['.jsx', '.js']
-    },
-    module: {
-        rules:[
-            {
-                test:/\.(css|less)$/,
-                use:["style-loader","css-loader","less-loader"]
-            },
-            {
-                test:/\.(jpg|jpeg|png|svg)$/,
-                use:["file-loader"]
-            },
-            {
-                test: /\.m?js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: "babel-loader",
-                    options: {
-                        presets: ['@babel/preset-env']
-                    }
-                }
-            },
-            {
-                test: /\.m?jsx$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: "babel-loader",
-                    options: {
-                        presets: ['@babel/preset-env','@babel/preset-react']
-                    }
-                }
-            }
-        ]
-    },
-}
+  },
+};

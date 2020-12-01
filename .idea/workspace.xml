@@ -16,7 +16,14 @@
         <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </expand>
-    <select />
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:origin/main" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20cc3b46-6d7f-40a0-8778-2e321dfa0a06" name="Default Changelist" comment="" />
@@ -36,6 +43,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -43,8 +51,9 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="prettierjs.PrettierConfiguration.Package" value="I:\Myproject\node_modules\prettier" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="prettierjs.PrettierConfiguration.Package" value="C:\Users\Администратор\AppData\Roaming\npm\node_modules\prettier" />
+    <property name="run.prettier.on.save" value="true" />
+    <property name="settings.editor.selected.configurable" value="settings.javascript.prettier" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2020.2.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -66,6 +75,16 @@
       <workItem from="1606468113504" duration="22161000" />
       <workItem from="1606578014091" duration="17733000" />
       <workItem from="1606657057882" duration="9667000" />
+      <workItem from="1606761916320" duration="2808000" />
+      <workItem from="1606828111817" duration="741000" />
+      <workItem from="1606828873410" duration="648000" />
+      <workItem from="1606832734112" duration="8148000" />
+      <workItem from="1606847014543" duration="107000" />
+      <workItem from="1606847134243" duration="1331000" />
+      <workItem from="1606848614927" duration="147000" />
+      <workItem from="1606848779942" duration="206000" />
+      <workItem from="1606848995577" duration="48000" />
+      <workItem from="1606849052716" duration="518000" />
     </task>
     <servers />
   </component>
@@ -77,7 +96,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -94,13 +125,38 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="577" y="231" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1600.860@0.0.1600.860" timestamp="1606144261655" />
-    <state x="121" y="95" key="SettingsEditor" timestamp="1606660000373">
+    <state width="1515" height="204" key="GridCell.Tab.0.bottom" timestamp="1606846995048">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="121" y="95" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1606660000373" />
-    <state x="691" y="57" width="585" height="801" key="find.popup" timestamp="1606317119487">
-      <screen x="0" y="0" width="1600" height="860" />
+    <state width="1515" height="204" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1606846995048" />
+    <state width="1515" height="204" key="GridCell.Tab.0.center" timestamp="1606846995048">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
+    <state width="1515" height="204" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1606846995048" />
+    <state width="1515" height="204" key="GridCell.Tab.0.left" timestamp="1606846995048">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="204" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1606846995048" />
+    <state width="1515" height="204" key="GridCell.Tab.0.right" timestamp="1606846995048">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="204" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1606846995048" />
+    <state x="210" y="84" key="SettingsEditor" timestamp="1606849601444">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="210" y="84" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1606849601444" />
+    <state x="372" y="22" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1606843491441">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="372" y="22" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824@0.0.1536.824" timestamp="1606843491441" />
+    <state x="535" y="54" width="562" height="768" key="find.popup" timestamp="1606848379827">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="535" y="54" width="562" height="768" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1606848379827" />
     <state x="691" y="57" width="585" height="801" key="find.popup/0.0.1600.860@0.0.1600.860" timestamp="1606317119487" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1606831531500">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1606831531500" />
   </component>
 </project>

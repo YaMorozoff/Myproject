@@ -3,13 +3,13 @@ import "./app.less";
 import { Input } from "arui-feather/input";
 import Select from "arui-feather/select";
 import Button from "arui-feather/button";
-import { Box, Dialog } from "@material-ui/core";
-import DialogContent from "@material-ui/core/DialogContent";
-import Spin from "arui-feather/spin";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContentText from "@material-ui/core/DialogContentText";
+import { Box } from "@material-ui/core";
+import { setItems } from "../reducers/reposReducer";
 
-export default class App extends Component {
+import { SendDialog, ResponseDialog } from "../components";
+import connect from "react-redux/lib/connect/connect";
+
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -51,6 +51,7 @@ export default class App extends Component {
             image: result.image,
             listOptions: options,
           });
+          this.props.setReduxItems(options);
         },
         (error) => {
           this.setState({
@@ -65,18 +66,20 @@ export default class App extends Component {
       return (
         <div key={item.type} className="inputBox">
           <p>{item.title}</p>
-          <Input
-            label="Текст"
-            value={this.state.textInput}
-            placeholder="Введите текст"
-            view="filled"
-            type="text"
-            pattern="^[a-zA-Z\s]+$"
-            size="m"
-            onChange={(value) => {
-              this.setState({ textInput: value });
-            }}
-          />
+          <div className="inputContainer">
+            <Input
+              label="Текст"
+              value={this.state.textInput}
+              placeholder="Введите текст"
+              view="filled"
+              type="text"
+              pattern="^[a-zA-Z\s]+$"
+              size="m"
+              onChange={(value) => {
+                this.setState({ textInput: value });
+              }}
+            />
+          </div>
         </div>
       );
     }
@@ -85,17 +88,19 @@ export default class App extends Component {
       return (
         <div key={item.type} className="inputBox">
           <p>{item.title}</p>
-          <Input
-            label="Число"
-            value={this.state.numericInput}
-            placeholder="Введите число"
-            view="filled"
-            type="number"
-            size="m"
-            onChange={(value) => {
-              this.setState({ numericInput: value });
-            }}
-          />
+          <div className="inputContainer">
+            <Input
+              label="Число"
+              value={this.state.numericInput}
+              placeholder="Введите число"
+              view="filled"
+              type="number"
+              size="m"
+              onChange={(value) => {
+                this.setState({ numericInput: value });
+              }}
+            />
+          </div>
         </div>
       );
     }
@@ -104,14 +109,18 @@ export default class App extends Component {
       return (
         <div key={item.type} className="inputBox">
           <p>{item.title}</p>
-          <Select
-            mode="radio"
-            value={this.state.listInput}
-            options={this.state.listOptions}
-            onChange={(value) => {
-              this.setState({ listInput: value });
-            }}
-          />
+          <div className="inputContainer">
+            <Select
+              width="available"
+              className="inputField"
+              mode="radio"
+              value={this.state.listInput}
+              options={this.state.listOptions}
+              onChange={(value) => {
+                this.setState({ listInput: value });
+              }}
+            />
+          </div>
         </div>
       );
     }
@@ -119,11 +128,14 @@ export default class App extends Component {
   sendData() {
     this.setState({ isOpen: true });
     setTimeout(() => {
+      const selected = this.state.listOptions.filter(
+        (item) => item.value === this.state.listInput[0]
+      );
       const data = {
         form: {
           text: this.state.textInput,
           numeric: this.state.numericInput,
-          list: this.state.listInput[0],
+          list: selected[0]?.text,
         },
       };
       try {
@@ -140,6 +152,11 @@ export default class App extends Component {
               ifLoadTrue: true,
               result: result.result,
             });
+          })
+          .catch((error) => {
+            console.log(error.name);
+            if (error.name === "AbortError") return;
+            throw error;
           });
       } catch (error) {
         console.error("Ошибка:", error);
@@ -149,13 +166,16 @@ export default class App extends Component {
   handleClose() {
     this.setState({ isOpen: false });
     this.controller.abort();
+    setTimeout(() => {
+      this.controller = new AbortController();
+    }, 3000);
   }
   handleContinue() {
     this.setState({
       ifLoadTrue: false,
       textInput: "",
       numericInput: "",
-      listInput: this.state.listOptions[0]?.value,
+      listInput: [this.state.listOptions[0]?.value],
     });
   }
 
@@ -173,51 +193,24 @@ export default class App extends Component {
       <div className="mainBox">
         <div className="title">{title}</div>
         {fields.map((field) => this.renderInput(field))}
+        <Button
+          id="sendDataButton"
+          onClick={this.sendData.bind(this)}
+          view="rounded"
+          text="Отправить"
+        />
         <Box>
-          <Button
-            id="sendDataButton"
-            onClick={this.sendData.bind(this)}
-            view="rounded"
-            text="Отправить"
-          />
-          <Dialog
+          <SendDialog
             open={this.state.isOpen}
             onClose={this.handleClose.bind(this)}
-            disableBackdropClick
-          >
-            <DialogContent id="dialogContent">
-              <Spin size={"xl"} visible={true} />
-              <DialogContentText id="dialogText">Отправка...</DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button
-                id="cancelButton"
-                onClick={this.handleClose.bind(this)}
-                view="rounded"
-                text="Отмена"
-              />
-            </DialogActions>
-          </Dialog>
-
-          <Dialog
+            action={this.handleClose.bind(this)}
+          />
+          <ResponseDialog
             open={this.state.ifLoadTrue}
             onClose={this.handleClose.bind(this)}
-            disableBackdropClick
-          >
-            <DialogContent id="dialogContent">
-              <DialogContentText id="dialogText">
-                  {this.state.result}
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button
-                id="cancelButton"
-                onClick={this.handleContinue.bind(this)}
-                view="rounded"
-                text="Продолжить"
-              />
-            </DialogActions>
-          </Dialog>
+            action={this.handleContinue.bind(this)}
+            text={this.state.result}
+          />
         </Box>
 
         <img src={image} />
@@ -225,3 +218,12 @@ export default class App extends Component {
     );
   }
 }
+const mapStateToProps = (state) => ({
+  reduxItems: state.repos.items,
+});
+
+const mapDispatchToProps = {
+  setReduxItems: setItems,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
